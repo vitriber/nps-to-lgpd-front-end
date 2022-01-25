@@ -10,7 +10,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import React from 'react';
-import { mainListItems } from '../../components/ListItems';
+import MainListItems from '../../components/ListItems';
 
 const drawerWidth = 240;
 
@@ -119,7 +119,9 @@ export default function NavBar() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>
+          <MainListItems/>
+        </List>
       </Drawer>
     </>
   );
