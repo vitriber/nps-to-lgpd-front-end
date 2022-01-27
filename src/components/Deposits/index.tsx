@@ -14,10 +14,10 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Deposits() {
+export const Deposits = (): JSX.Element => {
   const classes = useStyles();
   return (
-    <React.Fragment>
+    <>
       <Title>NPS Recentes</Title>
       <Typography component="p" variant="h4">
         9.47
@@ -26,10 +26,10 @@ export default function Deposits() {
         em 15 de Março, 2021
       </Typography>
       <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
+        <Link color="primary" href="/relatório" onClick={preventDefault}>
           Ver mais
         </Link>
       </div>
-    </React.Fragment>
+    </>
   );
-}
+};

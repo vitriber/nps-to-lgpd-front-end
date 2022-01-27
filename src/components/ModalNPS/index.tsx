@@ -22,11 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2, 4, 3),
     },
     content: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: '15px',
-    }
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: '15px',
+    },
   }),
 );
 
@@ -38,12 +38,15 @@ interface FadeProps {
 }
 
 interface ModalNPSProps {
-    handleClose: () => void;
-    open: boolean;
-    npsValue: string;
+  handleClose: () => void;
+  open: boolean;
+  npsValue: string;
 }
 
-const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(props, ref) {
+const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(
+  props,
+  ref,
+) {
   const { in: open, children, onEnter, onExited, ...other } = props;
   const style = useSpring({
     from: { opacity: 0 },
@@ -67,57 +70,58 @@ const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(props, re
   );
 });
 
-export default function ModalNPS({open, handleClose, npsValue}:ModalNPSProps) {
+export default function ModalNPS({
+  open,
+  handleClose,
+  npsValue,
+}: ModalNPSProps) {
   const classes = useStyles();
 
   const history = useHistory();
-  const feeling = Number(npsValue) > 7 ? true : false;
+  const feeling = Number(npsValue) > 7;
 
   const handleOnClick = () => {
     history.push('/');
   };
 
   return (
-      <Modal
-        aria-labelledby="spring-modal-title"
-        aria-describedby="spring-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
-            <h2 id="spring-modal-title">Seu valor de NPS é:</h2>
-            <h2 id="spring-modal-description">{npsValue}</h2>
-            <div className={classes.content}>
-                {feeling ? (
-                    <MoodIcon
-                        style={{ color: "green" }}
-                        fontSize="large" 
-                    />
-                ) : (
-                    <SentimentVeryDissatisfiedIcon
-                        style={{ color: "red" }}
-                        fontSize="large"
-                    />
-                )}
-            </div>
-            
-            <Button 
-                onClick={handleOnClick}
-                color="primary"
-                fullWidth
-                variant="contained"
-            > 
-                Voltar 
-            </Button>
+    <Modal
+      aria-labelledby="spring-modal-title"
+      aria-describedby="spring-modal-description"
+      className={classes.modal}
+      open={open}
+      onClose={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
+      <Fade in={open}>
+        <div className={classes.paper}>
+          <h2 id="spring-modal-title">Seu valor de NPS é:</h2>
+          <h2 id="spring-modal-description">{npsValue}</h2>
+          <div className={classes.content}>
+            {feeling ? (
+              <MoodIcon style={{ color: 'green' }} fontSize="large" />
+            ) : (
+              <SentimentVeryDissatisfiedIcon
+                style={{ color: 'red' }}
+                fontSize="large"
+              />
+            )}
           </div>
-        </Fade>
-      </Modal>
+
+          <Button
+            onClick={handleOnClick}
+            color="primary"
+            fullWidth
+            variant="contained"
+          >
+            Voltar
+          </Button>
+        </div>
+      </Fade>
+    </Modal>
   );
 }

@@ -1,27 +1,18 @@
-import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Container } from '@mui/material';
 import React from 'react';
+import { Layout } from '../../components/Layout';
+import { useStyles } from './styles';
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
-  },
-}));
-
-export default function EmptyPage() {
+export const EmptyPage = () => {
   const classes = useStyles();
 
   return (
-      <main className={classes.content}>
-         <Typography>
-             Página em Construção
-         </Typography>
-      </main>
+    <Layout>
+      <div className={classes.content}>
+        <Container className={classes.container}>
+          <h1>Página em Construção</h1>
+        </Container>
+      </div>
+    </Layout>
   );
-}
+};

@@ -20,11 +20,11 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2, 4, 3),
     },
     content: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: '15px',
-    }
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: '15px',
+    },
   }),
 );
 
@@ -36,11 +36,14 @@ interface FadeProps {
 }
 
 interface ModalProps {
-    handleClose: () => void;
-    open: boolean;
+  handleClose: () => void;
+  open: boolean;
 }
 
-const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(props, ref) {
+const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(
+  props,
+  ref,
+) {
   const { in: open, children, onEnter, onExited, ...other } = props;
   const style = useSpring({
     from: { opacity: 0 },
@@ -64,7 +67,7 @@ const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(props, re
   );
 });
 
-export default function ModalRegister({open, handleClose}:ModalProps) {
+export default function ModalRegister({ open, handleClose }: ModalProps) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -73,31 +76,31 @@ export default function ModalRegister({open, handleClose}:ModalProps) {
   };
 
   return (
-      <Modal
-        aria-labelledby="spring-modal-title"
-        aria-describedby="spring-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
-            <h2 id="spring-modal-title">Empresa Cadastrada com sucesso!</h2>
-            <Button 
-                onClick={handleOnClick}
-                color="primary"
-                fullWidth
-                variant="contained"
-            > 
-                Voltar 
-            </Button>
-          </div>
-        </Fade>
-      </Modal>
+    <Modal
+      aria-labelledby="spring-modal-title"
+      aria-describedby="spring-modal-description"
+      className={classes.modal}
+      open={open}
+      onClose={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
+      <Fade in={open}>
+        <div className={classes.paper}>
+          <h2 id="spring-modal-title">Empresa Cadastrada com sucesso!</h2>
+          <Button
+            onClick={handleOnClick}
+            color="primary"
+            fullWidth
+            variant="contained"
+          >
+            Voltar
+          </Button>
+        </div>
+      </Fade>
+    </Modal>
   );
 }

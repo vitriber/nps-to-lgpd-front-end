@@ -1,4 +1,5 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { Alert } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -11,41 +12,47 @@ import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import useToken from '../../services/useToken';
 
-export const Login = () => {
-
+export function SignIn() {
   const { setToken } = useToken();
   const theme = createTheme();
   const history = useHistory();
+  const [error, setError] = useState<string>();
 
-  const [loginForm, setloginForm] = React.useState({
-    email: "",
-    password: ""
-  })
+  const [loginForm, setloginForm] = useState({
+    email: '',
+    password: '',
+  });
+
+  useEffect(() => {
+    setTimeout(() => setError(''), 4000);
+  }, [error]);
 
   const logMeIn = () => {
-    api.post('api/token', loginForm)
-    .then((response) => {
-      setToken(response.data.access_token)
-      history.push('/');
-    }).catch((error) => {
-      if (error.response) {
-        console.log(error.response)
-        }
-    })
-    setloginForm(({
-      email: "",
-      password: ""}))
-  }
+    api
+      .post('api/token', loginForm)
+      .then(response => {
+        setToken(response.data.access_token);
+        history.push('/');
+      })
+      .catch(error => {
+        console.error(error);
+        setError('Erro ao realizar login');
+      });
+    setloginForm({
+      email: '',
+      password: '',
+    });
+  };
 
   const handleChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = event.target;
-    setloginForm({...loginForm, [name]: value});
-};
+    const { name, value } = event.target;
+    setloginForm({ ...loginForm, [name]: value });
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,7 +77,12 @@ export const Login = () => {
           <Typography component="h1" variant="h5">
             Entrar
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -107,16 +119,21 @@ export const Login = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/senha" variant="body2">
                   Esqueceu sua senha?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Não tem conta? Cadastre-se"}
+                <Link href="/cadastrar" variant="body2">
+                  Não tem conta? Cadastre-se
                 </Link>
               </Grid>
             </Grid>
+            {error && (
+              <Alert style={{ marginTop: 10 }} severity="error">
+                {error}
+              </Alert>
+            )}
           </Box>
         </Box>
       </Container>

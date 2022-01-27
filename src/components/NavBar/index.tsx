@@ -1,3 +1,4 @@
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -8,13 +9,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
+import { Logout } from '@mui/icons-material';
 import clsx from 'clsx';
 import React from 'react';
-import MainListItems from '../../components/ListItems';
+import { useHistory } from 'react-router-dom';
+import useToken from '../../services/useToken';
+import { MainListItems } from '../MainListItems';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
   },
@@ -77,12 +81,23 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
-
+  logout: {
+    bottom: 0,
+  },
 }));
 
-export default function NavBar() {
+export const NavBar = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const history = useHistory();
+
+  const { removeToken } = useToken();
+
+  const handleLogout = () => {
+    removeToken();
+    history.push('/login');
+  };
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -93,14 +108,20 @@ export default function NavBar() {
   return (
     <>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar
+        position="absolute"
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+            className={clsx(
+              classes.menuButton,
+              open && classes.menuButtonHidden,
+            )}
           >
             <MenuIcon />
           </IconButton>
@@ -120,9 +141,15 @@ export default function NavBar() {
         </div>
         <Divider />
         <List>
-          <MainListItems/>
+          <MainListItems />
+          <ListItem button onClick={handleLogout}>
+            <ListItemIcon>
+              <Logout />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
         </List>
       </Drawer>
     </>
   );
-}
+};

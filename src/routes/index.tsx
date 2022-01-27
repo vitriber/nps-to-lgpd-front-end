@@ -1,25 +1,31 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import ListQuestion from '../pages/ListQuestion';
 
-import Dashboard from '../pages/Dashboard';
-import FindNPS from '../pages/FindNPS';
-import RegisterEnterprise from '../pages/Register';
-import RegisterQuestion from '../pages/RegisterQuestion';
-import EmptyPage from '../pages/Empty';
-import SignUp from '../pages/SignUp';
-import { Login } from '../pages/Login';
+import { SignIn } from '../pages/SignIn';
+import { PrivateRoute } from '../components/PrivateRoute';
+import { ListQuestion } from '../pages/Question/ListQuestion';
+import { RegisterQuestion } from '../pages/Question/RegisterQuestion';
+import { Dashboard } from '../pages/Dashboard';
+import { SignUp } from '../pages/SignUp';
+import { EmptyPage } from '../pages/Empty';
+import { RegisterEnterprise } from '../pages/Register';
+import { FindNPS } from '../pages/FindNPS';
+import { ConfigureQuestion } from '../pages/Question/ConfigureQuestion';
 
 const Routes: React.FC = () => (
   <Switch>
-    <Route path="/login" component={Login}/>
-    <Route path="/signup" component={SignUp}/>
-    <Route path="/encontrar-nps" component={FindNPS} />
-    <Route path="/questionario/cadastrar" component={RegisterEnterprise} />
-    <Route path="/pergunta/configurar" component={ListQuestion} />
-    <Route path="/pergunta/cadastrar" component={RegisterQuestion} />
-    <Route path="/" component={Dashboard} exact/>
-    <Route path="/" component={EmptyPage}/>
+    <Route path="/login" component={SignIn} />
+    <Route path="/cadastrar" component={SignUp} />
+    <PrivateRoute path="/encontrar-nps" component={FindNPS} />
+    <PrivateRoute
+      path="/questionário/cadastrar"
+      component={RegisterEnterprise}
+    />
+    <PrivateRoute path="/pergunta/configurar" component={ListQuestion} />
+    <PrivateRoute path="/pergunta/cadastrar" component={RegisterQuestion} />
+    <PrivateRoute path="/pergunta/editar/:id" component={ConfigureQuestion} />
+    <PrivateRoute path="/" component={Dashboard} exact />
+    <PrivateRoute path="/" component={EmptyPage} />
   </Switch>
 );
 

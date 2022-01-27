@@ -18,14 +18,14 @@ const rows = [
   createData(1, '16 Mar, 2021', 'Riachuelo', 9.99),
   createData(2, '16 Ago, 2021', 'Ricardo Eletro', 2.81),
   createData(3, '16 Set, 2021', 'Casas Bahia', 4.39),
-  createData(4, '15 Mar, 2021', 'Ponto Frio',  8.79),
+  createData(4, '15 Mar, 2021', 'Ponto Frio', 8.79),
 ];
 
 function preventDefault(event: any) {
   event.preventDefault();
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Orders() {
   const classes = useStyles();
   return (
-    <React.Fragment>
+    <>
       <Title>Avaliações Recentes</Title>
       <Table size="small">
         <TableHead>
@@ -45,7 +45,7 @@ export default function Orders() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map(row => (
             <TableRow key={row.id}>
               <TableCell>{row.date}</TableCell>
               <TableCell>{row.name}</TableCell>
@@ -59,6 +59,6 @@ export default function Orders() {
           Veja mais avaliações
         </Link>
       </div>
-    </React.Fragment>
+    </>
   );
 }
