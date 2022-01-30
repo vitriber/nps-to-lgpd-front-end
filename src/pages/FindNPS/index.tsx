@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import React, { FormEvent } from 'react';
 import { useEffect } from 'react';
 import { Layout } from '../../components/Layout';
-import ModalNPS from '../../components/ModalNPS';
+import { ModalNPS } from '../../components/ModalNPS';
 import api from '../../services/api';
 
 const useStyles = makeStyles(theme => ({
@@ -67,7 +67,7 @@ const initialValues = {
   question_16: false,
 };
 
-export const FindNPS = () => {
+export const FindNPS = (): JSX.Element => {
   const [values, setValues] = React.useState(initialValues);
   const [npsValue, setNpsValue] = React.useState('');
   const classes = useStyles();
@@ -512,4 +512,4 @@ export const FindNPS = () => {
       </main>
     </Layout>
   );
-}
+};

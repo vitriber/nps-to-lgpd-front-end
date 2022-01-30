@@ -22,31 +22,31 @@ import { useHistory } from 'react-router-dom';
 import { Layout } from '../../../components/Layout';
 import { Title } from '../../../components/Title';
 import api from '../../../services/api';
-import { Question } from '../Interfaces/QuestionInterface';
+import { User } from '../interfaces/UserInterface';
 import { useStyles } from './styles';
 
-export const ListQuestion = (): JSX.Element => {
-  const [questions, setQuestions] = useState<Question[]>();
+export const ListUser = (): JSX.Element => {
+  const [users, setUsers] = useState<User[]>();
   const [showModalDelete, setShowModalDelete] = useState<boolean>(false);
 
   const classes = useStyles();
   const history = useHistory();
 
-  const handleAddQuestion = () => {
-    history.push('/pergunta/cadastrar');
+  const handleAddUser = () => {
+    history.push('/usuario/cadastrar');
   };
 
-  const handleEditQuestion = (id: number) => {
-    history.push(`/pergunta/editar/${id}`);
+  const handleEditUser = (id: number) => {
+    history.push(`/usuario/editar/${id}`);
   };
 
-  const handleGetQuestions = async () => {
-    const response = await api.get('api/question/all');
-    setQuestions(response.data);
+  const handleGetUsers = async () => {
+    const response = await api.get('api/user/all');
+    setUsers(response.data);
   };
 
   useEffect(() => {
-    handleGetQuestions();
+    handleGetUsers();
   }, []);
 
   return (
@@ -62,35 +62,33 @@ export const ListQuestion = (): JSX.Element => {
                 marginBottom: 15,
               }}
             >
-              <Title>Questões</Title>
-              <Button variant="contained" onClick={handleAddQuestion}>
-                Adicionar Pergunta
+              <Title>Usuários</Title>
+              <Button variant="contained" onClick={handleAddUser}>
+                Adicionar Usuário
               </Button>
             </div>
             <Table size="small">
               <TableHead>
                 <TableRow>
                   <TableCell>Id</TableCell>
-                  <TableCell>Pergunta</TableCell>
-                  <TableCell>Descrição</TableCell>
-                  <TableCell>Fator Constante</TableCell>
-                  <TableCell> Data de Criação</TableCell>
+                  <TableCell>Nome</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Telefone</TableCell>
+                  <TableCell>Admin</TableCell>
                   <TableCell>Editar</TableCell>
                   <TableCell>Remover</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {questions &&
-                  questions.map(question => (
-                    <TableRow key={question.id}>
-                      <TableCell>{question.id}</TableCell>
-                      <TableCell>{question.name}</TableCell>
-                      <TableCell>{question.description}</TableCell>
-                      <TableCell>{question.constant_factor}</TableCell>
-                      <TableCell>{question.created_at}</TableCell>
-                      <TableCell
-                        onClick={() => handleEditQuestion(question.id)}
-                      >
+                {users &&
+                  users.map(user => (
+                    <TableRow key={user.id}>
+                      <TableCell>{user.id}</TableCell>
+                      <TableCell>{user.name}</TableCell>
+                      <TableCell>{user.mail}</TableCell>
+                      <TableCell>{user.phone}</TableCell>
+                      <TableCell>{user.is_admin}</TableCell>
+                      <TableCell onClick={() => handleEditUser(user.id)}>
                         <Tooltip title="Editar">
                           <IconButton>
                             <Edit />
@@ -119,10 +117,7 @@ export const ListQuestion = (): JSX.Element => {
       >
         <Box className={classes.modalDelete}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Tem certeza que deseja remover essa pergunta?
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Ao remover você concorda que pode haver inconsistências no NPS
+            Tem certeza que deseja remover esse usuário?
           </Typography>
           <Button variant="contained">Remover</Button>
         </Box>

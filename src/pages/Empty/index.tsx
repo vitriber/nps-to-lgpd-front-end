@@ -3,7 +3,7 @@ import React from 'react';
 import { Layout } from '../../components/Layout';
 import { useStyles } from './styles';
 
-export const EmptyPage = () => {
+export const EmptyPage = (): JSX.Element => {
   const classes = useStyles();
 
   return (

@@ -6,10 +6,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Title from '../Title';
+import { Title } from '../Title';
 
 // Generate Order Data
-function createData(id: any, date: any, name: any, nps: any) {
+function createData(id: number, date: string, name: string, nps: number) {
   return { id, date, name, nps };
 }
 
@@ -21,7 +21,7 @@ const rows = [
   createData(4, '15 Mar, 2021', 'Ponto Frio', 8.79),
 ];
 
-function preventDefault(event: any) {
+function preventDefault(event: React.MouseEvent<HTMLElement>) {
   event.preventDefault();
 }
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Orders() {
+export const Orders = (): JSX.Element => {
   const classes = useStyles();
   return (
     <>
@@ -55,10 +55,10 @@ export default function Orders() {
         </TableBody>
       </Table>
       <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
+        <Link color="primary" href="/relatorios" onClick={preventDefault}>
           Veja mais avaliações
         </Link>
       </div>
     </>
   );
-}
+};

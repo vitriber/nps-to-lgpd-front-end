@@ -27,7 +27,7 @@ const Copyright = (props: any) => {
 
 const theme = createTheme();
 
-export const SignUp = () => {
+export const SignUp = (): JSX.Element => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

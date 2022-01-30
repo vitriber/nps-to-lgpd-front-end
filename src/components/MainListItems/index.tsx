@@ -1,3 +1,12 @@
+import React from 'react';
+import {
+  Collapse,
+  Link,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import {
   ExpandLess,
   ExpandMore,
@@ -11,15 +20,6 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LayersIcon from '@material-ui/icons/Layers';
-import React from 'react';
-import {
-  Collapse,
-  Link,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from '@mui/material';
 
 export const MainListItems = (): JSX.Element => {
   const [openMenuQuestion, setOpenMenuQuestion] = React.useState(false);
@@ -73,13 +73,13 @@ export const MainListItems = (): JSX.Element => {
       </ListItem>
       <Collapse in={openMenuQuestion} timeout="auto" unmountOnExit>
         <List component="div" disablePadding style={{ paddingLeft: 10 }}>
-          <ListItem button component={Link} href="pergunta/configurar">
+          <ListItem button component={Link} href="/pergunta/configurar">
             <ListItemIcon>
               <Edit />
             </ListItemIcon>
             <ListItemText primary="Configurar" />
           </ListItem>
-          <ListItem button component={Link} href="pergunta/cadastrar">
+          <ListItem button component={Link} href="/pergunta/cadastrar">
             <ListItemIcon>
               <AddCircle />
             </ListItemIcon>
@@ -92,18 +92,18 @@ export const MainListItems = (): JSX.Element => {
         <ListItemIcon>
           <LayersIcon />
         </ListItemIcon>
-        <ListItemText primary="Base de Dados" />
+        <ListItemText primary="Questionários" />
         {openMenuDataBase ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={openMenuDataBase} timeout="auto" unmountOnExit>
         <List component="div" disablePadding style={{ paddingLeft: 10 }}>
-          <ListItem button component={Link} href="base-de-dados/configurar">
+          <ListItem button component={Link} href="/questionario/configurar">
             <ListItemIcon>
               <Edit />
             </ListItemIcon>
             <ListItemText primary="Configurar" />
           </ListItem>
-          <ListItem button component={Link} href="base-de-dados/cadastrar">
+          <ListItem button component={Link} href="/questionario/cadastrar">
             <ListItemIcon>
               <AddCircle />
             </ListItemIcon>
@@ -121,13 +121,13 @@ export const MainListItems = (): JSX.Element => {
       </ListItem>
       <Collapse in={openMenuEnterprise} timeout="auto" unmountOnExit>
         <List component="div" disablePadding style={{ paddingLeft: 10 }}>
-          <ListItem button component={Link} href="empresa/configurar">
+          <ListItem button component={Link} href="/empresa/configurar">
             <ListItemIcon>
               <AddCircle />
             </ListItemIcon>
             <ListItemText primary="Nova Empresa" />
           </ListItem>
-          <ListItem button component={Link} href="empresa/cadastrar">
+          <ListItem button component={Link} href="/empresa/cadastrar">
             <ListItemIcon>
               <Edit />
             </ListItemIcon>
@@ -145,13 +145,13 @@ export const MainListItems = (): JSX.Element => {
       </ListItem>
       <Collapse in={openMenuUser} timeout="auto" unmountOnExit>
         <List component="div" disablePadding style={{ paddingLeft: 10 }}>
-          <ListItem button component={Link} href="usuario/configurar">
+          <ListItem button component={Link} href="/usuario/cadastrar">
             <ListItemIcon>
               <AddCircle />
             </ListItemIcon>
             <ListItemText primary="Novo Usuário" />
           </ListItem>
-          <ListItem button component={Link} href="usuario/cadastrar">
+          <ListItem button component={Link} href="/usuario/configurar">
             <ListItemIcon>
               <Edit />
             </ListItemIcon>

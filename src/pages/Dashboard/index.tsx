@@ -10,7 +10,7 @@ import React from 'react';
 import { Chart } from '../../components/Chart';
 import { Deposits } from '../../components/Deposits';
 import { Layout } from '../../components/Layout';
-import Orders from '../../components/Orders';
+import { Orders } from '../../components/Orders';
 
 const Copyright = () => {
   return (
@@ -105,7 +105,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const Dashboard = () => {
+export const Dashboard = (): JSX.Element => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 

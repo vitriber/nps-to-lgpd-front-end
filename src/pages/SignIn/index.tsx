@@ -17,8 +17,8 @@ import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import useToken from '../../services/useToken';
 
-export function SignIn() {
-  const { setToken } = useToken();
+export const SignIn = (): JSX.Element => {
+  const { setToken, saveUser } = useToken();
   const theme = createTheme();
   const history = useHistory();
   const [error, setError] = useState<string>();
@@ -34,14 +34,18 @@ export function SignIn() {
 
   const logMeIn = () => {
     api
-      .post('api/token', loginForm)
+      .post('api/login', loginForm)
       .then(response => {
+        saveUser({
+          id: response.data.id,
+          email: response.data.email,
+          is_admin: response.data.is_admin,
+        });
         setToken(response.data.access_token);
         history.push('/');
       })
-      .catch(error => {
-        console.error(error);
-        setError('Erro ao realizar login');
+      .catch(err => {
+        setError(err.response.data.message);
       });
     setloginForm({
       email: '',
@@ -139,4 +143,4 @@ export function SignIn() {
       </Container>
     </ThemeProvider>
   );
-}
+};

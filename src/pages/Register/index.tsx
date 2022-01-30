@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import React, { FormEvent, useEffect } from 'react';
-import ModalRegister from '../../components/ModalRegister';
+import { ModalRegister } from '../../components/ModalRegister';
 import api from '../../services/api';
 
 const useStyles = makeStyles(theme => ({
@@ -66,7 +66,7 @@ const initialValues = {
   nps: 0,
 };
 
-export const RegisterEnterprise = () => {
+export const Register = (): JSX.Element => {
   const [values, setValues] = React.useState(initialValues);
   const classes = useStyles();
 
@@ -518,8 +518,12 @@ export const RegisterEnterprise = () => {
             </Button>
           </form>
         </div>
-        <ModalRegister open={open} handleClose={handleClose} />
+        <ModalRegister
+          open={open}
+          handleClose={handleClose}
+          textModal="Empresa cadastrada com sucesso!"
+        />
       </Container>
     </main>
   );
-}
+};

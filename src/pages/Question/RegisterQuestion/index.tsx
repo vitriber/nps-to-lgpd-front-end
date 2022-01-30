@@ -14,14 +14,14 @@ import {
 } from '@mui/material';
 import React, { FormEvent, useEffect, useState } from 'react';
 import { Layout } from '../../../components/Layout';
-import ModalRegister from '../../../components/ModalRegister';
+import { ModalRegister } from '../../../components/ModalRegister';
 import api from '../../../services/api';
 import { useStyles } from './styles';
 
 const initialQuestionValues = {
   name: '',
   constant_factor: '',
-  description_question: '',
+  description: '',
   is_multiple: false,
   description_question_1: '',
   description_question_2: '',
@@ -29,7 +29,7 @@ const initialQuestionValues = {
   description_question_4: '',
 };
 
-export const RegisterQuestion = () => {
+export const RegisterQuestion = (): JSX.Element => {
   const [questionValues, setQuestionValues] = useState(initialQuestionValues);
   const [showModalRegister, setShowModalRegister] = useState<boolean>(false);
   const [showMultipleQuestion, setShowMultipleQuestion] =
@@ -113,7 +113,7 @@ export const RegisterQuestion = () => {
                     <TextField
                       className={classes.textField}
                       autoComplete="fname"
-                      name="description_question"
+                      name="description"
                       variant="outlined"
                       required
                       fullWidth
@@ -227,9 +227,10 @@ export const RegisterQuestion = () => {
             handleClose={() => {
               setShowModalRegister(false);
             }}
+            textModal="Questão cadastrada com sucesso!"
           />
         </Container>
       </main>
     </Layout>
   );
-}
+};

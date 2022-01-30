@@ -37,6 +37,7 @@
         "camelcase": "off",
         "react/prop-types": "off",
         "@typescript-eslint/camelcase": "off",
+        "react/jsx-props-no-spreading": "off",
         "react/function-component-definition": [
             2,
             {

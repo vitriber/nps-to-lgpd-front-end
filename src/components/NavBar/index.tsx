@@ -86,15 +86,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const NavBar = () => {
+export const NavBar = (): JSX.Element => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const history = useHistory();
 
-  const { removeToken } = useToken();
+  const { removeToken, removeUser } = useToken();
 
   const handleLogout = () => {
     removeToken();
+    removeUser();
     history.push('/login');
   };
 

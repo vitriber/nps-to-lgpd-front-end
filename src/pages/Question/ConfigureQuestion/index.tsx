@@ -13,33 +13,45 @@ import {
   Typography,
 } from '@mui/material';
 import React, { FormEvent, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Layout } from '../../../components/Layout';
-import ModalRegister from '../../../components/ModalRegister';
+import { ModalRegister } from '../../../components/ModalRegister';
 import api from '../../../services/api';
+import { ParamTypes } from '../../../utils/Interfaces/ParamTypes';
+import { QuestionResponse } from '../Interfaces/QuestionReponseInterface';
 import { useStyles } from './styles';
 
-const initialQuestionValues = {
-  name: '',
-  constant_factor: '',
-  description_question: '',
-  is_multiple: false,
-  description_question_1: '',
-  description_question_2: '',
-  description_question_3: '',
-  description_question_4: '',
-};
-
-export const ConfigureQuestion = () =>  {
-  const [questionValues, setQuestionValues] = useState(initialQuestionValues);
+export const ConfigureQuestion = (): JSX.Element => {
+  const [questionValues, setQuestionValues] = useState<QuestionResponse>({
+    name: '',
+    constant_factor: '',
+    description: '',
+    is_multiple: false,
+    description_question_1: '',
+    description_question_2: '',
+    description_question_3: '',
+    description_question_4: '',
+  });
   const [showModalRegister, setShowModalRegister] = useState<boolean>(false);
   const [showMultipleQuestion, setShowMultipleQuestion] =
     useState<boolean>(false);
   const [error, setError] = useState<string>();
+  const { id } = useParams<ParamTypes>();
 
   const classes = useStyles();
 
+  const handleGetQuestion = async () => {
+    try {
+      const response = await api.get(`api/question/${id}`);
+      setQuestionValues(response.data);
+    } catch (err) {
+      console.error(err);
+      setError('Erro ao buscar pergunta');
+    }
+  };
+
   useEffect(() => {
-    setQuestionValues(initialQuestionValues);
+    handleGetQuestion();
   }, []);
 
   useEffect(() => {
@@ -62,11 +74,10 @@ export const ConfigureQuestion = () =>  {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await api.post('api/question', questionValues);
-      setQuestionValues(initialQuestionValues);
+      await api.patch(`api/question/${id}`, questionValues);
       setShowModalRegister(true);
     } catch {
-      setError('Erro ao cadastrar pergunta');
+      setError('Erro ao atualizar pergunta');
     }
   };
 
@@ -91,6 +102,7 @@ export const ConfigureQuestion = () =>  {
                       required
                       fullWidth
                       id="name"
+                      value={questionValues?.name}
                       label="Identificador da Pergunta: Ex: Questão 1"
                       onChange={handleChangeText}
                       autoFocus
@@ -105,6 +117,7 @@ export const ConfigureQuestion = () =>  {
                       id="constant_factor"
                       label="Peso da Pergunta: Ex: 1,2, 1.5"
                       name="constant_factor"
+                      value={questionValues?.constant_factor}
                       autoComplete="constant_factor"
                       onChange={handleChangeText}
                     />
@@ -113,8 +126,9 @@ export const ConfigureQuestion = () =>  {
                     <TextField
                       className={classes.textField}
                       autoComplete="fname"
-                      name="description_question"
+                      name="description"
                       variant="outlined"
+                      value={questionValues?.description}
                       required
                       fullWidth
                       id="description"
@@ -130,7 +144,7 @@ export const ConfigureQuestion = () =>  {
                     <RadioGroup
                       aria-label="is_multiple"
                       name="is_multiple"
-                      value={questionValues.is_multiple}
+                      value={questionValues?.is_multiple}
                       onChange={handleChange}
                     >
                       <FormControlLabel value control={<Radio />} label="Sim" />
@@ -210,7 +224,7 @@ export const ConfigureQuestion = () =>  {
                       color="primary"
                       className={classes.submit}
                     >
-                      Cadastrar Pergunta
+                      Editar Pergunta
                     </Button>
                   </Grid>
                 </Grid>
@@ -227,9 +241,10 @@ export const ConfigureQuestion = () =>  {
             handleClose={() => {
               setShowModalRegister(false);
             }}
+            textModal="Questão editada com sucesso!"
           />
         </Container>
       </main>
     </Layout>
   );
-}
+};

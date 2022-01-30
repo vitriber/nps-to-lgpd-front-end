@@ -22,31 +22,31 @@ import { useHistory } from 'react-router-dom';
 import { Layout } from '../../../components/Layout';
 import { Title } from '../../../components/Title';
 import api from '../../../services/api';
-import { Question } from '../Interfaces/QuestionInterface';
+import { Questionary } from '../Interfaces/QuestionaryInterface';
 import { useStyles } from './styles';
 
-export const ListQuestion = (): JSX.Element => {
-  const [questions, setQuestions] = useState<Question[]>();
+export const ListQuestionary = (): JSX.Element => {
+  const [questionnaires, setQuestionnaires] = useState<Questionary[]>();
   const [showModalDelete, setShowModalDelete] = useState<boolean>(false);
 
   const classes = useStyles();
   const history = useHistory();
 
-  const handleAddQuestion = () => {
-    history.push('/pergunta/cadastrar');
+  const handleAddQuestionary = () => {
+    history.push('/questionario/cadastrar');
   };
 
-  const handleEditQuestion = (id: number) => {
-    history.push(`/pergunta/editar/${id}`);
+  const handleEditQuestionary = (id: number) => {
+    history.push(`/questionario/editar/${id}`);
   };
 
-  const handleGetQuestions = async () => {
-    const response = await api.get('api/question/all');
-    setQuestions(response.data);
+  const handleGetQuestionnaires = async () => {
+    const response = await api.get('api/questionary/all');
+    setQuestionnaires(response.data);
   };
 
   useEffect(() => {
-    handleGetQuestions();
+    handleGetQuestionnaires();
   }, []);
 
   return (
@@ -62,34 +62,34 @@ export const ListQuestion = (): JSX.Element => {
                 marginBottom: 15,
               }}
             >
-              <Title>Questões</Title>
-              <Button variant="contained" onClick={handleAddQuestion}>
-                Adicionar Pergunta
+              <Title>Questionários</Title>
+              <Button variant="contained" onClick={handleAddQuestionary}>
+                Adicionar
               </Button>
             </div>
             <Table size="small">
               <TableHead>
                 <TableRow>
                   <TableCell>Id</TableCell>
-                  <TableCell>Pergunta</TableCell>
-                  <TableCell>Descrição</TableCell>
-                  <TableCell>Fator Constante</TableCell>
-                  <TableCell> Data de Criação</TableCell>
+                  <TableCell>Nome Empresa</TableCell>
+                  <TableCell>NPS</TableCell>
+                  <TableCell>Data de Criação</TableCell>
+                  <TableCell>Data de Edição</TableCell>
                   <TableCell>Editar</TableCell>
                   <TableCell>Remover</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {questions &&
-                  questions.map(question => (
-                    <TableRow key={question.id}>
-                      <TableCell>{question.id}</TableCell>
-                      <TableCell>{question.name}</TableCell>
-                      <TableCell>{question.description}</TableCell>
-                      <TableCell>{question.constant_factor}</TableCell>
-                      <TableCell>{question.created_at}</TableCell>
+                {questionnaires &&
+                  questionnaires.map(questionary => (
+                    <TableRow key={questionary.id}>
+                      <TableCell>{questionary.id}</TableCell>
+                      <TableCell>{questionary.name_enterprise}</TableCell>
+                      <TableCell>{questionary.nps_value}</TableCell>
+                      <TableCell>{questionary.created_at}</TableCell>
+                      <TableCell>{questionary.updated_at}</TableCell>
                       <TableCell
-                        onClick={() => handleEditQuestion(question.id)}
+                        onClick={() => handleEditQuestionary(questionary.id)}
                       >
                         <Tooltip title="Editar">
                           <IconButton>
@@ -119,7 +119,7 @@ export const ListQuestion = (): JSX.Element => {
       >
         <Box className={classes.modalDelete}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Tem certeza que deseja remover essa pergunta?
+            Tem certeza que deseja remover esse questionario?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Ao remover você concorda que pode haver inconsistências no NPS
