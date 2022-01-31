@@ -20,25 +20,50 @@ import api from '../../../services/api';
 import { ParamTypes } from '../../../utils/Interfaces/ParamTypes';
 import { Question } from '../../Question/Interfaces/QuestionInterface';
 import { Answer } from '../Interfaces/AnswerInterface';
+import { Questionary } from '../Interfaces/QuestionaryInterface';
 import { QuestionaryResponse } from '../Interfaces/QuestionaryResponse';
 import { useStyles } from './styles';
 
 export const ConfigureQuestionary = (): JSX.Element => {
   const [questions, setQuestions] = useState<Question[]>();
   const [answers, setAnswers] = useState<Answer[]>();
+  const [questionary, setQuestionary] = useState<Questionary>();
   const [questionaryValues, setQuestionaryValues] =
-    useState<QuestionaryResponse>();
-  const [showModalRegister, setShowModalRegister] = useState<boolean>(false);
+    useState<QuestionaryResponse>({
+      name_enterprise: '',
+      nps_value: 0,
+      answers: [],
+    });
 
+  const [showModalRegister, setShowModalRegister] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const { id } = useParams<ParamTypes>();
-
   const classes = useStyles();
+
+  useEffect(() => {
+    handleGetQuestionary();
+    handleGetQuestions();
+    handleGetAnswers();
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => setError(''), 4000);
+  }, [error]);
+
+  useEffect(() => {
+    if (questionary && answers) {
+      setQuestionaryValues({
+        name_enterprise: questionary.name_enterprise,
+        nps_value: questionary.nps_value,
+        answers,
+      });
+    }
+  }, [questionary, answers]);
 
   const handleGetQuestionary = async () => {
     try {
       const response = await api.get(`api/questionary/${id}`);
-      setQuestionaryValues(response.data);
+      setQuestionary(response.data);
     } catch (err) {
       setError('Erro ao buscar questionário');
     }
@@ -54,20 +79,31 @@ export const ConfigureQuestionary = (): JSX.Element => {
     setAnswers(response.data);
   };
 
-  useEffect(() => {
-    handleGetQuestionary();
-    handleGetQuestions();
-    handleGetAnswers();
-  }, []);
-
-  useEffect(() => {
-    setTimeout(() => setError(''), 4000);
-  }, [error]);
+  const getAnswerValue = (question_id: number): boolean => {
+    const value = questionaryValues?.answers?.find(
+      answer => answer.question_id === question_id,
+    )?.value;
+    if (value === 1) {
+      return true;
+    }
+    return false;
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    const option = value === 'true';
-    setQuestionaryValues({ ...questionaryValues, [name]: option });
+    const number_value = value === 'true' ? 1 : 0;
+
+    const updated_answers = questionaryValues?.answers?.map(answer => {
+      if (answer.question_id === Number(name)) {
+        return {
+          ...answer,
+          value: number_value,
+        };
+      }
+      return answer;
+    });
+
+    setQuestionaryValues({ ...questionaryValues, answers: updated_answers });
   };
 
   const handleChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +114,13 @@ export const ConfigureQuestionary = (): JSX.Element => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await api.patch(`api/questionary/${id}`, questionaryValues);
+      console.log('esse é o questionaryValues', questionaryValues);
+      await api.patch(`api/questionary/${id}`, {
+        name_enterprise: questionaryValues.name_enterprise,
+        nps_value: questionaryValues.nps_value,
+      });
+
+      await api.patch(`api/answer/${id}`, questionaryValues.answers);
       setShowModalRegister(true);
     } catch {
       setError('Erro ao atualizar pergunta');
@@ -121,13 +163,13 @@ export const ConfigureQuestionary = (): JSX.Element => {
                         </FormLabel>
                         <RadioGroup
                           aria-label="is_multiple"
-                          name={`${question.id}`}
+                          key={`${question.id}`}
                           onChange={handleChange}
+                          name={`${question.id}`}
                           value={
-                            answers?.find(
-                              answer =>
-                                answer.question_id === question.id.toString(),
-                            )?.value
+                            questionaryValues?.answers?.find(
+                              answer => answer.question_id === question.id,
+                            )?.value === 1
                           }
                         >
                           <FormControlLabel
@@ -185,7 +227,7 @@ export const ConfigureQuestionary = (): JSX.Element => {
             handleClose={() => {
               setShowModalRegister(false);
             }}
-            textModal="Questão editada com sucesso!"
+            textModal="Questionário editado com sucesso!"
           />
         </Container>
       </main>

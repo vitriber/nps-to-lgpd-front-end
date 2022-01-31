@@ -45,7 +45,6 @@ export const ConfigureQuestion = (): JSX.Element => {
       const response = await api.get(`api/question/${id}`);
       setQuestionValues(response.data);
     } catch (err) {
-      console.error(err);
       setError('Erro ao buscar pergunta');
     }
   };
