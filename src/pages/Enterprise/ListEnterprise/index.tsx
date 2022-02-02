@@ -22,27 +22,27 @@ import { useHistory } from 'react-router-dom';
 import { Layout } from '../../../components/Layout';
 import { Title } from '../../../components/Title';
 import api from '../../../services/api';
-import { User } from '../interfaces/UserInterface';
+import { Enteprise } from '../interfaces/EnterpriseInterface';
 import { useStyles } from './styles';
 
-export const ListUser = (): JSX.Element => {
-  const [users, setUsers] = useState<User[]>();
+export const ListEnterprise = (): JSX.Element => {
+  const [enteprises, setEnterprises] = useState<Enteprise[]>();
   const [showModalDelete, setShowModalDelete] = useState<boolean>(false);
 
   const classes = useStyles();
   const history = useHistory();
 
   const handleAddUser = () => {
-    history.push('/usuario/cadastrar');
+    history.push('/empresa/cadastrar');
   };
 
   const handleEditUser = (id: number) => {
-    history.push(`/usuario/editar/${id}`);
+    history.push(`/empresa/editar/${id}`);
   };
 
   const handleGetUsers = async () => {
-    const response = await api.get('api/user/all');
-    setUsers(response.data);
+    const response = await api.get('api/user/enterprise/all');
+    setEnterprises(response.data);
   };
 
   useEffect(() => {
@@ -62,9 +62,9 @@ export const ListUser = (): JSX.Element => {
                 marginBottom: 15,
               }}
             >
-              <Title>Usuários</Title>
+              <Title>Empresas</Title>
               <Button variant="contained" onClick={handleAddUser}>
-                Adicionar Usuário
+                Adicionar Empresa
               </Button>
             </div>
             <Table size="small">
@@ -74,21 +74,21 @@ export const ListUser = (): JSX.Element => {
                   <TableCell>Nome</TableCell>
                   <TableCell>Email</TableCell>
                   <TableCell>Telefone</TableCell>
-                  <TableCell>Admin</TableCell>
+                  <TableCell>ID do Usuário</TableCell>
                   <TableCell>Editar</TableCell>
                   <TableCell>Remover</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users &&
-                  users.map(user => (
-                    <TableRow key={user.id}>
-                      <TableCell>{user.id}</TableCell>
-                      <TableCell>{user.name}</TableCell>
-                      <TableCell>{user.mail}</TableCell>
-                      <TableCell>{user.phone}</TableCell>
-                      <TableCell>{user.is_admin ? 'Sim' : 'Não'}</TableCell>
-                      <TableCell onClick={() => handleEditUser(user.id)}>
+                {enteprises &&
+                  enteprises.map(enteprise => (
+                    <TableRow key={enteprise.id}>
+                      <TableCell>{enteprise.id}</TableCell>
+                      <TableCell>{enteprise.name}</TableCell>
+                      <TableCell>{enteprise.mail}</TableCell>
+                      <TableCell>{enteprise.phone}</TableCell>
+                      <TableCell>{enteprise.user_id}</TableCell>
+                      <TableCell onClick={() => handleEditUser(enteprise.id)}>
                         <Tooltip title="Editar">
                           <IconButton>
                             <Edit />
@@ -117,7 +117,7 @@ export const ListUser = (): JSX.Element => {
       >
         <Box className={classes.modalDelete}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Tem certeza que deseja remover esse usuário?
+            Tem certeza que deseja remover essa empresa?
           </Typography>
           <Button variant="contained">Remover</Button>
         </Box>

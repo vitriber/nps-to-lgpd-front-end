@@ -18,6 +18,7 @@ function useToken() {
     localStorage.setItem('user_id', user.id);
     localStorage.setItem('user_email', user.email);
     localStorage.setItem('user_is_admin', user.is_admin);
+    localStorage.setItem('user_name', user.name);
   }
 
   function removeToken() {
@@ -29,6 +30,7 @@ function useToken() {
     localStorage.removeItem('user_id');
     localStorage.removeItem('user_email');
     localStorage.removeItem('user_is_admin');
+    localStorage.removeItem('user_name');
     setToken(null);
   }
 

@@ -23,6 +23,7 @@ import { useStyles } from './styles';
 
 export const RegisterQuestionary = (): JSX.Element => {
   const [questions, setQuestions] = useState<Question[]>();
+  const userId = localStorage.getItem('user_id');
   const [questionaryValues, setQuestionaryValues] =
     useState<QuestionaryResponse>({
       name_enterprise: '',
@@ -50,7 +51,7 @@ export const RegisterQuestionary = (): JSX.Element => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const number_value = value === 'true' ? 1 : 0;
-    let updated_answers: Answer[] | undefined = [];
+    let updated_answers: Answer[] = [];
 
     const exist_answer = questionaryValues?.answers?.find(
       answer => answer.question_id === Number(name),
@@ -68,13 +69,13 @@ export const RegisterQuestionary = (): JSX.Element => {
       });
     } else {
       updated_answers = [
+        ...questionaryValues.answers,
         {
           question_id: Number(name),
-          value: Number(value),
+          value: number_value,
         },
       ];
     }
-
     setQuestionaryValues({ ...questionaryValues, answers: updated_answers });
   };
 
@@ -85,18 +86,33 @@ export const RegisterQuestionary = (): JSX.Element => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      console.log('Esse é o questionary Values', questionaryValues);
-      // const response = await api.post(`api/questionary`, {
-      //   name_enterprise: questionaryValues.name_enterprise,
-      //   nps_value: questionaryValues.nps_value,
-      // });
 
-      // await api.post(
-      //   `api/answer/${response.data[0][0]}`,
-      //   questionaryValues.answers,
-      // );
-      setQuestionaryValues({});
+    if (!questionaryValues.name_enterprise) {
+      setError('Digite um nome de empresa válido');
+      return;
+    }
+
+    if (questionaryValues.answers.length !== questions?.length) {
+      setError('Preencha todas as respostas');
+      return;
+    }
+
+    if (!questionaryValues.nps_value) {
+      setError('Digite um valor de NPS de 0 a 10');
+      return;
+    }
+
+    try {
+      const response = await api.post(`api/questionary`, {
+        name_enterprise: questionaryValues.name_enterprise,
+        nps_value: questionaryValues.nps_value,
+        user_id: userId,
+      });
+
+      await api.post(
+        `api/answer/${response.data[0][0]}`,
+        questionaryValues.answers,
+      );
       setShowModalRegister(true);
     } catch {
       setError('Erro ao cadastrar questionário');
@@ -122,6 +138,8 @@ export const RegisterQuestionary = (): JSX.Element => {
                       name="name_enterprise"
                       variant="outlined"
                       required
+                      error={!!questionaryValues.name_enterprise}
+                      value={questionaryValues.name_enterprise}
                       fullWidth
                       id="name_enterprise"
                       label="Nome da empresa"

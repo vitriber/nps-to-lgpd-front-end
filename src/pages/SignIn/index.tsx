@@ -40,6 +40,7 @@ export const SignIn = (): JSX.Element => {
           id: response.data.id,
           email: response.data.email,
           is_admin: response.data.is_admin,
+          name: response.data.name,
         });
         setToken(response.data.access_token);
         history.push('/');

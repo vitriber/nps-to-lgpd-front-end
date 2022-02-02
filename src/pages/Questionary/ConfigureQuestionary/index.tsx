@@ -79,16 +79,6 @@ export const ConfigureQuestionary = (): JSX.Element => {
     setAnswers(response.data);
   };
 
-  const getAnswerValue = (question_id: number): boolean => {
-    const value = questionaryValues?.answers?.find(
-      answer => answer.question_id === question_id,
-    )?.value;
-    if (value === 1) {
-      return true;
-    }
-    return false;
-  };
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const number_value = value === 'true' ? 1 : 0;
@@ -113,17 +103,23 @@ export const ConfigureQuestionary = (): JSX.Element => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!questionaryValues.name_enterprise) {
+      setError('Digite um nome de empresa válido');
+      return;
+    }
+    if (!questionaryValues.nps_value) {
+      setError('Digite um valor de NPS de 0 a 10');
+      return;
+    }
     try {
-      console.log('esse é o questionaryValues', questionaryValues);
       await api.patch(`api/questionary/${id}`, {
         name_enterprise: questionaryValues.name_enterprise,
         nps_value: questionaryValues.nps_value,
       });
 
-      await api.patch(`api/answer/${id}`, questionaryValues.answers);
       setShowModalRegister(true);
     } catch {
-      setError('Erro ao atualizar pergunta');
+      setError('Erro ao atualizar questionario');
     }
   };
 
@@ -173,11 +169,13 @@ export const ConfigureQuestionary = (): JSX.Element => {
                           }
                         >
                           <FormControlLabel
+                            disabled
                             value
                             control={<Radio />}
                             label="Sim"
                           />
                           <FormControlLabel
+                            disabled
                             value={false}
                             control={<Radio />}
                             label="Não"
@@ -210,7 +208,7 @@ export const ConfigureQuestionary = (): JSX.Element => {
                       color="primary"
                       className={classes.submit}
                     >
-                      Cadastrar Questionário
+                      Editar Questionário
                     </Button>
                   </Grid>
                 </Grid>

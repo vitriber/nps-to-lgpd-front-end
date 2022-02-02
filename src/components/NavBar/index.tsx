@@ -25,8 +25,9 @@ const useStyles = makeStyles(theme => ({
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     padding: '0 8px',
+    paddingLeft: '20px',
     ...theme.mixins.toolbar,
   },
   appBar: {
@@ -91,6 +92,8 @@ export const NavBar = (): JSX.Element => {
   const [open, setOpen] = React.useState(true);
   const history = useHistory();
 
+  const userName = localStorage.getItem('user_name');
+
   const { removeToken, removeUser } = useToken();
 
   const handleLogout = () => {
@@ -136,6 +139,7 @@ export const NavBar = (): JSX.Element => {
         open={open}
       >
         <div className={classes.toolbarIcon}>
+          <h3>Olá, {userName}</h3>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>

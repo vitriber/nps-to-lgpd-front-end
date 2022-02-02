@@ -1,7 +1,7 @@
 import { Answer } from './AnswerInterface';
 
 export interface QuestionaryResponse {
-  name_enterprise?: string | undefined;
-  nps_value?: number | undefined;
-  answers?: Answer[];
+  name_enterprise: string;
+  nps_value: number;
+  answers: Answer[];
 }

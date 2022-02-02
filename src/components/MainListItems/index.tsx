@@ -27,6 +27,8 @@ export const MainListItems = (): JSX.Element => {
   const [openMenuEnterprise, setOpenMenuEnterprise] = React.useState(false);
   const [openMenuUser, setOpenMenuUser] = React.useState(false);
 
+  const isAdmin = localStorage.getItem('user_is_admin') === 'true';
+
   const handleClickOpenMenuQuestion = () => {
     setOpenMenuQuestion(!openMenuQuestion);
   };
@@ -64,101 +66,105 @@ export const MainListItems = (): JSX.Element => {
         <ListItemText primary="Relatórios" />
       </ListItem>
 
-      <ListItem button onClick={handleClickOpenMenuQuestion}>
-        <ListItemIcon>
-          <QuestionAnswer />
-        </ListItemIcon>
-        <ListItemText primary="Perguntas" />
-        {openMenuQuestion ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={openMenuQuestion} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding style={{ paddingLeft: 10 }}>
-          <ListItem button component={Link} href="/pergunta/configurar">
+      {isAdmin && (
+        <>
+          <ListItem button onClick={handleClickOpenMenuQuestion}>
             <ListItemIcon>
-              <Edit />
+              <QuestionAnswer />
             </ListItemIcon>
-            <ListItemText primary="Configurar" />
+            <ListItemText primary="Perguntas" />
+            {openMenuQuestion ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <ListItem button component={Link} href="/pergunta/cadastrar">
-            <ListItemIcon>
-              <AddCircle />
-            </ListItemIcon>
-            <ListItemText primary="Cadastrar" />
-          </ListItem>
-        </List>
-      </Collapse>
+          <Collapse in={openMenuQuestion} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding style={{ paddingLeft: 10 }}>
+              <ListItem button component={Link} href="/pergunta/configurar">
+                <ListItemIcon>
+                  <Edit />
+                </ListItemIcon>
+                <ListItemText primary="Configurar" />
+              </ListItem>
+              <ListItem button component={Link} href="/pergunta/cadastrar">
+                <ListItemIcon>
+                  <AddCircle />
+                </ListItemIcon>
+                <ListItemText primary="Cadastrar" />
+              </ListItem>
+            </List>
+          </Collapse>
 
-      <ListItem button onClick={handleClickOpenMenuDataBase}>
-        <ListItemIcon>
-          <LayersIcon />
-        </ListItemIcon>
-        <ListItemText primary="Questionários" />
-        {openMenuDataBase ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={openMenuDataBase} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding style={{ paddingLeft: 10 }}>
-          <ListItem button component={Link} href="/questionario/configurar">
+          <ListItem button onClick={handleClickOpenMenuDataBase}>
             <ListItemIcon>
-              <Edit />
+              <LayersIcon />
             </ListItemIcon>
-            <ListItemText primary="Configurar" />
+            <ListItemText primary="Questionários" />
+            {openMenuDataBase ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <ListItem button component={Link} href="/questionario/cadastrar">
-            <ListItemIcon>
-              <AddCircle />
-            </ListItemIcon>
-            <ListItemText primary="Cadastrar Resposta" />
-          </ListItem>
-        </List>
-      </Collapse>
+          <Collapse in={openMenuDataBase} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding style={{ paddingLeft: 10 }}>
+              <ListItem button component={Link} href="/questionario/configurar">
+                <ListItemIcon>
+                  <Edit />
+                </ListItemIcon>
+                <ListItemText primary="Configurar" />
+              </ListItem>
+              <ListItem button component={Link} href="/questionario/cadastrar">
+                <ListItemIcon>
+                  <AddCircle />
+                </ListItemIcon>
+                <ListItemText primary="Cadastrar" />
+              </ListItem>
+            </List>
+          </Collapse>
 
-      <ListItem button onClick={handleClickOpenMenuEnterprise}>
-        <ListItemIcon>
-          <Apartment />
-        </ListItemIcon>
-        <ListItemText primary="Empresas" />
-        {openMenuEnterprise ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={openMenuEnterprise} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding style={{ paddingLeft: 10 }}>
-          <ListItem button component={Link} href="/empresa/configurar">
+          <ListItem button onClick={handleClickOpenMenuUser}>
             <ListItemIcon>
-              <AddCircle />
+              <Person />
             </ListItemIcon>
-            <ListItemText primary="Nova Empresa" />
+            <ListItemText primary="Usuários" />
+            {openMenuUser ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <ListItem button component={Link} href="/empresa/cadastrar">
-            <ListItemIcon>
-              <Edit />
-            </ListItemIcon>
-            <ListItemText primary="Lista de Empresas" />
-          </ListItem>
-        </List>
-      </Collapse>
+          <Collapse in={openMenuUser} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding style={{ paddingLeft: 10 }}>
+              <ListItem button component={Link} href="/usuario/configurar">
+                <ListItemIcon>
+                  <Edit />
+                </ListItemIcon>
+                <ListItemText primary="Configurar" />
+              </ListItem>
+              <ListItem button component={Link} href="/usuario/cadastrar">
+                <ListItemIcon>
+                  <AddCircle />
+                </ListItemIcon>
+                <ListItemText primary="Cadastrar" />
+              </ListItem>
+            </List>
+          </Collapse>
 
-      <ListItem button onClick={handleClickOpenMenuUser}>
-        <ListItemIcon>
-          <Person />
-        </ListItemIcon>
-        <ListItemText primary="Usuários" />
-        {openMenuUser ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={openMenuUser} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding style={{ paddingLeft: 10 }}>
-          <ListItem button component={Link} href="/usuario/cadastrar">
+          <ListItem button onClick={handleClickOpenMenuEnterprise}>
             <ListItemIcon>
-              <AddCircle />
+              <Apartment />
             </ListItemIcon>
-            <ListItemText primary="Novo Usuário" />
+            <ListItemText primary="Empresas" />
+            {openMenuEnterprise ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <ListItem button component={Link} href="/usuario/configurar">
-            <ListItemIcon>
-              <Edit />
-            </ListItemIcon>
-            <ListItemText primary="Lista de Usuários" />
-          </ListItem>
-        </List>
-      </Collapse>
+          <Collapse in={openMenuEnterprise} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding style={{ paddingLeft: 10 }}>
+              <ListItem button component={Link} href="/empresa/configurar">
+                <ListItemIcon>
+                  <Edit />
+                </ListItemIcon>
+                <ListItemText primary="Configurar" />
+              </ListItem>
+              <ListItem button component={Link} href="/empresa/cadastrar">
+                <ListItemIcon>
+                  <AddCircle />
+                </ListItemIcon>
+                <ListItemText primary="Cadastrar" />
+              </ListItem>
+            </List>
+          </Collapse>
+        </>
+      )}
     </div>
   );
 };
