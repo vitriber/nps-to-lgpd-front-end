@@ -129,7 +129,6 @@ export const FindNps = (): JSX.Element => {
                       name="name_enterprise"
                       variant="outlined"
                       required
-                      error={!!questionaryValues.name_enterprise}
                       value={questionaryValues.name_enterprise}
                       fullWidth
                       id="name_enterprise"

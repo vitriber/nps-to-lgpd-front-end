@@ -1,15 +1,14 @@
+import { Typography } from '@mui/material';
 import React from 'react';
-import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
 
-export const Title = (props: any): JSX.Element => {
+interface Props {
+  children?: React.ReactNode;
+}
+
+export const Title = ({ children }: Props): JSX.Element => {
   return (
     <Typography component="h2" variant="h6" color="primary" gutterBottom>
-      {props.children}
+      {children}
     </Typography>
   );
-};
-
-Title.propTypes = {
-  children: PropTypes.node,
 };

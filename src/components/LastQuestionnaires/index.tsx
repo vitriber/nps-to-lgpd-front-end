@@ -1,32 +1,24 @@
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Questionary } from '../../pages/Questionary/Interfaces/QuestionaryInterface';
-import api from '../../services/api';
 import { Title } from '../Title';
 import { useStyles } from './styles';
 
-export const LastQuestionaries = (): JSX.Element => {
+interface Props {
+  questionnaires: Questionary[] | undefined;
+}
+
+export const LastQuestionaries = ({ questionnaires }: Props): JSX.Element => {
   const classes = useStyles();
-  const [questionnaires, setQuestionnaires] = useState<Questionary[]>();
 
   const preventDefault = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
   };
-
-  const handleGetQuestionnaires = async () => {
-    const response = await api.get('api/questionary/all');
-    setQuestionnaires(response.data);
-  };
-
-  useEffect(() => {
-    handleGetQuestionnaires();
-  }, []);
 
   return (
     <>

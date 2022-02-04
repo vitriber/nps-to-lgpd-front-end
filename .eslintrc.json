@@ -31,6 +31,7 @@
     "rules": {
         "prettier/prettier": "error",
         "@typescript-eslint/no-use-before-define": "off",
+        "react/require-default-props": "off",
         "no-use-before-define": "off",
         "react-hooks/rules-of-hooks": "error",
         "@typescript-eslint/ban-types": "off",
@@ -45,7 +46,7 @@
                 "unnamedComponents": "arrow-function"
             }
         ],
-        "react-hooks/exhaustive-deps": "warn",
+        "react-hooks/exhaustive-deps": "off",
         "no-unused-expressions": "off",
         "react/jsx-filename-extension": [
             1,

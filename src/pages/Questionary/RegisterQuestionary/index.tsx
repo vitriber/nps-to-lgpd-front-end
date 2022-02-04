@@ -138,7 +138,6 @@ export const RegisterQuestionary = (): JSX.Element => {
                       name="name_enterprise"
                       variant="outlined"
                       required
-                      error={!!questionaryValues.name_enterprise}
                       value={questionaryValues.name_enterprise}
                       fullWidth
                       id="name_enterprise"
@@ -183,7 +182,7 @@ export const RegisterQuestionary = (): JSX.Element => {
                       required
                       fullWidth
                       id="nps_value"
-                      label="Valor do NPS"
+                      label="Valor do NPS: De 0 a 10."
                       onChange={handleChangeText}
                       autoFocus
                     />
