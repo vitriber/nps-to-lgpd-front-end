@@ -44,7 +44,9 @@ export const ModalNPS = ({
       <Fade in={open}>
         <div className={classes.paper}>
           <h2 id="spring-modal-title">Seu valor de NPS é:</h2>
-          <h2 id="spring-modal-description">{npsValue}</h2>
+          <h2 id="spring-modal-description">
+            {parseFloat(npsValue).toFixed(2)}
+          </h2>
           <div className={classes.content}>
             {feeling ? (
               <MoodIcon style={{ color: 'green' }} fontSize="large" />

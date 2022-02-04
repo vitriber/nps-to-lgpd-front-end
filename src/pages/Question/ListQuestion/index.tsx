@@ -73,8 +73,8 @@ export const ListQuestion = (): JSX.Element => {
                   <TableCell>Id</TableCell>
                   <TableCell>Pergunta</TableCell>
                   <TableCell>Descrição</TableCell>
-                  <TableCell>Fator Constante</TableCell>
-                  <TableCell> Data de Criação</TableCell>
+                  <TableCell>Peso</TableCell>
+                  <TableCell>Data de Criação</TableCell>
                   <TableCell>Editar</TableCell>
                   <TableCell>Remover</TableCell>
                 </TableRow>
